@@ -1,16 +1,18 @@
-import datetime, subprocess
+import datetime, subprocess, sys
 import settings
 
-#tweetdata.datからツイートIDを取得
+#多重起動しないように、tweetdata.datの文字列をチェック(1行目がOpeningなら既に実行中、Closingなら停止中)
+#Openingなら終了、Closingなら2行目からツイートIDを取得
 with open(settings.datapath) as f:
   l = f.readlines()
-  readed_tweet_id = int(l[1])
+  if l[0] == 'Opening\n':
+    sys.exit()
+  else:
+    readed_tweet_id = int(l[1])
 
 #tweetdata.datの1行目をOpeningに変更
 with open(settings.datapath, mode = 'w') as f:
   f.write('Opening\n' + str(readed_tweet_id))
-
-latest_tweet_id = readed_tweet_id
 
 #ツイート監視
 try:
@@ -25,11 +27,11 @@ try:
     if not(settings.activate_sign in tweet):
       continue
 
-    latest_tweet_id = tweet_id
     for cmd in settings.start_cmds:
       subprocess.call(cmd.split())
     text =  '@' + settings.AdminID + ' 起動しますっての！(ㆁᴗㆁ✿) ' + str(datetime.datetime.now())
     settings.api.update_status(status = text, in_reply_to_status_id = tweet_id)
+    break
 #エラーを吐いたらとりあえず管理者にツイート
 except Exception as e:
   text =  '@' + settings.AdminID + 'at standby.py\n' + str(e) + ' at ' + str(datetime.datetime.now())
@@ -37,4 +39,4 @@ except Exception as e:
 #最後にtweetdata.datをClosingに
 finally:
   with open(settings.datapath, mode = 'w') as f:
-    f.write('Closing\n' + str(latest_tweet_id))
+    f.write('Closing\n' + str(readed_tweet_id))
