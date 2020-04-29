@@ -10,6 +10,8 @@ with open(settings.datapath) as f:
 with open(settings.datapath, mode = 'w') as f:
   f.write('Opening\n' + str(readed_tweet_id))
 
+latest_tweet_id = readed_tweet_id
+
 #ツイート監視
 try:
   #タイムラインチェック(自分にメンションされているもの)
@@ -22,6 +24,8 @@ try:
     tweet = mention.text
     if not(settings.activate_sign in tweet):
       continue
+
+    latest_tweet_id = tweet_id
     for cmd in settings.start_cmds:
       subprocess.call(cmd.split())
     text =  '@' + settings.AdminID + ' 起動しますっての！(ㆁᴗㆁ✿) ' + str(datetime.datetime.now())
@@ -33,4 +37,4 @@ except Exception as e:
 #最後にtweetdata.datをClosingに
 finally:
   with open(settings.datapath, mode = 'w') as f:
-    f.write('Closing\n' + str(readed_tweet_id))
+    f.write('Closing\n' + str(latest_tweet_id))
