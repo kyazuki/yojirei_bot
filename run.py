@@ -67,7 +67,6 @@ except tweepy.error.TweepError as e:
   text =  '@' + settings.AdminID + ' ' + traceback.format_exc() + ' at ' + str(datetime.datetime.now()) + '\nto:' + text[1:]
   settings.api.update_status(status = text)
 except Exception as e:
-  print(e)
   text =  '@' + settings.AdminID + ' ' + traceback.format_exc() + ' at ' + str(datetime.datetime.now())
   settings.api.update_status(status = text)
   settings.api.update_profile(name = settings.profile_name_error, description = settings.profile_description_error)

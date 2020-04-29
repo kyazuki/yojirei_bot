@@ -22,13 +22,12 @@ try:
     tweet = mention.text
     if not(settings.activate_sign in tweet):
       continue
-    text =  '@' + settings.AdminID + ' 起動しますっての！(ㆁᴗㆁ✿) ' + str(datetime.datetime.now())
-    settings.api.update_status(status = text, in_reply_to_status_id = tweet_id)
     for cmd in settings.start_cmds:
       subprocess.call(cmd.split())
+    text =  '@' + settings.AdminID + ' 起動しますっての！(ㆁᴗㆁ✿) ' + str(datetime.datetime.now())
+    settings.api.update_status(status = text, in_reply_to_status_id = tweet_id)
 #エラーを吐いたらとりあえず管理者にツイート
 except Exception as e:
-  print(e)
   text =  '@' + settings.AdminID + 'at standby.py\n' + str(e) + ' at ' + str(datetime.datetime.now())
   settings.api.update_status(status = text)
 #最後にtweetdata.datをClosingに
