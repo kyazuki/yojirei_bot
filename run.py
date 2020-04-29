@@ -36,15 +36,25 @@ try:
     text = '@' + target + ' '
     try:
       mode = text_analysis.mode_analysis(tweet)
-      text += text_analysis.execute(mode, tweet)
+      index, yojirei, tip = text_analysis.execute(mode, tweet)
     except text_analysis.callMultiCommandsError:
       #重複の場合
       text += '複数の処理は一度に実行不可ですっての…(ㆁxㆁ✿)\n分けてお願いしますっての！'
     except text_analysis.commandSyntaxError:
-      if mode == 1: text += '形式が不正ですっての…(ㆁxㆁ✿)\n例:1:\"見出し(ひらがな)\",2:\"用字例表記\",3:\"解説\"を追加'
-      elif mode == 2: text += '形式が不正ですっての…(ㆁxㆁ✿)\n例:\"削除対象(ひらがな)\"を削除'
+      if mode == text_analysis.Mode.ADD: text += '形式が不正ですっての…(ㆁxㆁ✿)\n例:1:\"見出し(ひらがな)\",2:\"用字例表記\",3:\"解説\"を追加'
+      elif mode == text_analysis.Mode.REMOVE: text += '形式が不正ですっての…(ㆁxㆁ✿)\n例:\"削除対象(ひらがな)\"を削除'
       else: text += '形式が不正ですっての…(ㆁxㆁ✿)\n例:1:\"見出し(ひらがな)\",2:\"用字例表記\",3:\"解説\"に更新'
-    
+    except text_analysis.yojireiDupricateError:
+      text += 'その用字例は既に存在していますっての…(ㆁxㆁ✿)'
+    except KeyError:
+      text += 'その用字例は未登録ですっての…(ㆁxㆁ✿)'
+    else:
+      if mode == text_analysis.Mode.ADD: text += '登録しますっての！(ㆁᴗㆁ✿)\nご協力ありがとうございますっての！'
+      elif mode == text_analysis.Mode.REMOVE: text += '"{}"を削除しますっての！(ㆁᴗㆁ✿)'.format(index)
+      elif mode == text_analysis.Mode.UPDATE: text += '"{}"を更新しますっての！(ㆁᴗㆁ✿)'.format(index)
+      elif mode == text_analysis.Mode.SORT: text += 'ソートしますっての！(ㆁᴗㆁ✿)'
+      else: text += '【{}】{}'.format(yojirei, tip)
+
     #リプライ
     settings.api.update_status(status = text, in_reply_to_status_id = tweet_id)
     
