@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from manual_auth import drive
 
 #"共有フォルダ/09.その他"のフォルダID(URLの末端文字列)

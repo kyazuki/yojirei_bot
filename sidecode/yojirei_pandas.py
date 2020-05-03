@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pandas as pd, operator
 from sidecode import drive_file
 

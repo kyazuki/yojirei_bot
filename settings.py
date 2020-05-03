@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #直近でチェックしたツイートのIDを保存するファイルパス
 datapath = 'tweetdata.dat'
 
