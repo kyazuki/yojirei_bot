@@ -79,7 +79,7 @@ except Exception:
   with open(settings.errorpath, mode = 'w') as f:
     f.write(readed_tweet_id + '\n' + tweet_id)
   with open(settings.cronpath, mode = 'w') as f:
-    f.write('#error * * * * * for i in `seq 0 10 59`;do (sleep ${i}; cd /home/twitter/www/yojirei_bot/repository; python3.8 run.py) & done;\n* * * * * (cd /home/twitter/www/yojirei_bot/repository; python3.8 standby.py) &\n')
+    f.write('#error * * * * * for i in `seq 0 10 59`;do (sleep ${i}; cd /home/twitter/www/yojirei_bot/repository; /usr/local/bin/python3.8 run.py) & done;\n* * * * * (cd /home/twitter/www/yojirei_bot/repository; /usr/local/bin/python3.8 standby.py) &\n')
   for cmd in settings.cron_cmds:
     subprocess.call(cmd.split())
 #最後にtweetdata.datをClosingに
