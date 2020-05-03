@@ -1,8 +1,10 @@
 import subprocess
+
+from twitter_auth import api
 import settings
 
 #Twitterプロフィールを稼働中に更新
-settings.api.update_profile(name = settings.profile_name, description = settings.profile_description)
+api.update_profile(name = settings.profile_name, description = settings.profile_description)
 
 #cronを編集し、通常モードに設定
 with open(settings.cronpath, mode = 'w') as f:

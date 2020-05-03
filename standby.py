@@ -1,4 +1,8 @@
-import datetime, subprocess, sys
+import datetime
+import subprocess
+import sys
+
+from twitter_auth import api
 import settings
 
 #多重起動しないように、tweetdata.datの文字列をチェック(1行目がOpeningなら既に実行中、Closingなら停止中)
@@ -17,7 +21,7 @@ with open(settings.datapath, mode = 'w') as f:
 #ツイート監視
 try:
   #タイムラインチェック(自分にメンションされているもの)
-  for mention in settings.api.mentions_timeline(since_id = readed_tweet_id):
+  for mention in api.mentions_timeline(since_id = readed_tweet_id):
     #送り主が管理者かつ、ツイートに"Activate"(settings.activate_sign)が含まれていたら起動
     tweet_id = mention.id
     target = mention.user.screen_name
@@ -30,12 +34,12 @@ try:
     for cmd in settings.start_cmds:
       subprocess.call(cmd.split())
     text =  '@' + settings.AdminID + ' 起動しますっての！(ㆁᴗㆁ✿) ' + str(datetime.datetime.now())
-    settings.api.update_status(status = text, in_reply_to_status_id = tweet_id)
+    api.update_status(status = text, in_reply_to_status_id = tweet_id)
     break
 #エラーを吐いたらとりあえず管理者にツイート
 except Exception as e:
   text =  '@' + settings.AdminID + 'at standby.py\n' + str(e) + ' at ' + str(datetime.datetime.now())
-  settings.api.update_status(status = text)
+  api.update_status(status = text)
 #最後にtweetdata.datをClosingに
 finally:
   with open(settings.datapath, mode = 'w') as f:
