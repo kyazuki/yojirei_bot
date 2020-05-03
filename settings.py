@@ -4,7 +4,7 @@ datapath = 'tweetdata.dat'
 errorpath = 'error.dat'
 cronpath = 'cron.txt'
 cron_cmds = ['crontab ' + cronpath, 'sudo systemctl restart crond.service']
-start_cmds = ['cd /home/twitter/www/yojirei_bot/repository', '/usr/local/bin/python3.8 start.py']
+start_cmds = ['cd /home/twitter/www/yojirei_bot/repository', 'python start.py']
 
 #自分自身(この用字例Bot)のTwitterID
 MyID = 'yojirei_bot_kai'
