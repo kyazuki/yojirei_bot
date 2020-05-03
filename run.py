@@ -70,10 +70,10 @@ try:
       latest_tweet_id = tweet_id
       loop = 1
 #エラーを吐いたらとりあえず管理者にツイート
-except tweepy.error.TweepError as e:
+except tweepy.error.TweepError:
   text =  '@' + settings.AdminID + ' ' + traceback.format_exc() + ' at ' + str(datetime.datetime.now())# + '\nto:' + text[1:]
   api.update_status(status = text[:280])
-except Exception as e:
+except Exception:
   text =  '@' + settings.AdminID + ' ' + traceback.format_exc() + ' at ' + str(datetime.datetime.now())
   api.update_status(status = text)
   api.update_profile(name = settings.profile_name_error, description = settings.profile_description_error)
