@@ -1,4 +1,11 @@
-import sys, tweepy, datetime, subprocess, traceback
+import datetime
+import subprocess
+import sys
+import traceback
+
+import tweepy
+
+from twitter_auth import api
 import settings
 from sidecode import text_analysis
 
@@ -23,7 +30,7 @@ try:
   text = 'NoText'
 
   #タイムラインチェック(自分にメンションされているもの)
-  for mention in settings.api.mentions_timeline(since_id = readed_tweet_id):
+  for mention in api.mentions_timeline(since_id = readed_tweet_id):
     tweet_id = mention.id
     tweet = mention.text
     target = mention.user.screen_name
@@ -56,7 +63,7 @@ try:
       else: text += '【{}】{}'.format(yojirei, tip)
 
     #リプライ
-    settings.api.update_status(status = text, in_reply_to_status_id = tweet_id)
+    api.update_status(status = text, in_reply_to_status_id = tweet_id)
     
     text = 'NoText'
     if loop == 0:
@@ -65,11 +72,11 @@ try:
 #エラーを吐いたらとりあえず管理者にツイート
 except tweepy.error.TweepError as e:
   text =  '@' + settings.AdminID + ' ' + traceback.format_exc() + ' at ' + str(datetime.datetime.now())# + '\nto:' + text[1:]
-  settings.api.update_status(status = text[:280])
+  api.update_status(status = text[:280])
 except Exception as e:
   text =  '@' + settings.AdminID + ' ' + traceback.format_exc() + ' at ' + str(datetime.datetime.now())
-  settings.api.update_status(status = text)
-  settings.api.update_profile(name = settings.profile_name_error, description = settings.profile_description_error)
+  api.update_status(status = text)
+  api.update_profile(name = settings.profile_name_error, description = settings.profile_description_error)
   with open(settings.errorpath, mode = 'w') as f:
     f.write(readed_tweet_id + '\n' + tweet_id)
   with open(settings.cronpath, mode = 'w') as f:

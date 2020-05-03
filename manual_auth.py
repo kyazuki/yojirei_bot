@@ -22,7 +22,7 @@ def load_client_config(gauth, client_config):
     except KeyError:
       pass
 
-# Google Driveの認証s
+# Google Driveの認証
 gauth = GoogleAuth()
 try:
     content1 = os.environ['GOOGLE_CLIENT_CONFIG']
