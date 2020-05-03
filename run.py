@@ -38,7 +38,6 @@ try:
       continue
     elif target == settings.AdminID and settings.activate_sign in tweet:
       continue
-    
     #ツイート分析
     text = '@' + target + ' '
     try:
@@ -63,7 +62,7 @@ try:
       else: text += '【{}】{}'.format(yojirei, tip)
 
     #リプライ
-    api.update_status(status = text, in_reply_to_status_id = tweet_id)
+    #api.update_status(status = text, in_reply_to_status_id = tweet_id)
     
     text = 'NoText'
     if loop == 0:
@@ -72,11 +71,11 @@ try:
 #エラーを吐いたらとりあえず管理者にツイート
 except tweepy.error.TweepError:
   text =  '@' + settings.AdminID + ' ' + traceback.format_exc() + ' at ' + str(datetime.datetime.now())# + '\nto:' + text[1:]
-  api.update_status(status = text[:280])
+  #api.update_status(status = text[:280])
 except Exception:
   text =  '@' + settings.AdminID + ' ' + traceback.format_exc() + ' at ' + str(datetime.datetime.now())
-  api.update_status(status = text)
-  api.update_profile(name = settings.profile_name_error, description = settings.profile_description_error)
+  #api.update_status(status = text)
+  #api.update_profile(name = settings.profile_name_error, description = settings.profile_description_error)
   with open(settings.errorpath, mode = 'w') as f:
     f.write(readed_tweet_id + '\n' + tweet_id)
   with open(settings.cronpath, mode = 'w') as f:

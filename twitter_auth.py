@@ -10,8 +10,7 @@ try:
     CONSUMER_SECRET = os.environ['TWITTER_CONSUMER_SECRET']
     ACCESS_TOKEN = os.environ['TWITTER_ACCESS_TOKEN']
     ACCESS_TOKEN_SECRET = os.environ['TWITTER_ACCESS_TOKEN_SECRET']
-except KeyError as e:
-    traceback.print_exc()
+except KeyError:
     with open('./twitter_keys.json') as f:
         keys_dict = json.load(f)
     CONSUMER_KEY = keys_dict['CONSUMER_KEY']
