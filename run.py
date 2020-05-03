@@ -64,8 +64,8 @@ try:
       loop = 1
 #エラーを吐いたらとりあえず管理者にツイート
 except tweepy.error.TweepError as e:
-  text =  '@' + settings.AdminID + ' ' + traceback.format_exc() + ' at ' + str(datetime.datetime.now()) + '\nto:' + text[1:]
-  settings.api.update_status(status = text)
+  text =  '@' + settings.AdminID + ' ' + traceback.format_exc() + ' at ' + str(datetime.datetime.now())# + '\nto:' + text[1:]
+  settings.api.update_status(status = text[:280])
 except Exception as e:
   text =  '@' + settings.AdminID + ' ' + traceback.format_exc() + ' at ' + str(datetime.datetime.now())
   settings.api.update_status(status = text)
