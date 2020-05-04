@@ -50,7 +50,8 @@ try:
     except text_analysis.commandSyntaxError:
       if mode == text_analysis.Mode.ADD: text += '形式が不正ですっての…(ㆁxㆁ✿)\n例:1:\"見出し(ひらがな)\",2:\"用字例表記\",3:\"解説\"を追加'
       elif mode == text_analysis.Mode.REMOVE: text += '形式が不正ですっての…(ㆁxㆁ✿)\n例:\"削除対象(ひらがな)\"を削除'
-      else: text += '形式が不正ですっての…(ㆁxㆁ✿)\n例:1:\"見出し(ひらがな)\",2:\"用字例表記\",3:\"解説\"に更新'
+      elif mode == text_analysis.Mode.UPDATE: text += '形式が不正ですっての…(ㆁxㆁ✿)\n例:1:\"見出し(ひらがな)\",2:\"用字例表記\",3:\"解説\"に更新'
+      else: text += '形式が不正ですっての…(ㆁxㆁ✿)\n例:"見出し(ひらがな)"は？'
     except text_analysis.yojireiDupricateError:
       text += 'その用字例は既に存在していますっての…(ㆁxㆁ✿)'
     except KeyError:
